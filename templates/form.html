@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <title>測試表單</title>
+</head>
+<body>
+    <label>姓名</label>
+    <input type="text" id="name" class="form-control">
+    <br />
+    <label>日期</label>
+    <input type="date" id="datetime" value="" class="form-control">
+    <br />
+    <label>包廂</label>
+    <select id="sel_room" class="form-control">
+        <option selected>一般房</option>
+        <option selected>雙人房</option>
+    </select>
+    <br />
+    <button class="btn btn-success btn-block" id="sure">
+        確定
+    </button>
+</body>
+</html>
+
+<script>
+    /*
+    function initializeApp(data) {
+        let userid = data.context.userId;
+    }
+    */
+    function initializeApp() {
+        displayLiffData();
+        displayIsInClientInfo();
+        registerButtonHandlers();
+    }
+    function pushMsg(pname, pdatatime, proom) {
+        if(pname == '')
+        {
+            alert('請輸入姓名')
+            return
+        }
+        let msg = '###'
+        msg += pname + "/";
+        msg += pdatatime + "/";
+        msg += proom + "/";
+        liff.sendMessages([
+            {
+              type: "text",
+              text: msg,
+            },
+          ])
+          .then(() => {
+            console.log("message sent");
+            liff.closeWindow()
+          })
+          .catch((err) => {
+
+          });
+        }
+
+    $(document).ready(function () {
+        liff
+            .init({
+                liffId: "1657326995-EZ3M9Qdb"
+            })
+            .then(() => {
+                // start to use LIFF's api
+            })
+            .catch((err) => {
+                alert(err)
+            });
+
+        $('#sure').click(function (e) {
+            pushMsg($('#name').val(), $('#datetime').val(), $('#sel_room').val())
+        })
+    })
+</script>
